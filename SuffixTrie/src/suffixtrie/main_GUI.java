@@ -165,7 +165,7 @@ public class main_GUI extends javax.swing.JFrame {
             Scanner myReader = new Scanner(inputFolder.getSelectedFile());
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                txt = txt + data + "\n";
+                txt = txt + data;
 
             }
             myReader.close();
