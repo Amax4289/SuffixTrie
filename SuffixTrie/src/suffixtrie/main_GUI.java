@@ -165,7 +165,7 @@ public class main_GUI extends javax.swing.JFrame {
             Scanner myReader = new Scanner(inputFolder.getSelectedFile());
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                txt = txt + data;
+                txt = txt + data + "\n";
 
             }
             myReader.close();
@@ -186,7 +186,10 @@ public class main_GUI extends javax.swing.JFrame {
         String Query = jTextFieldQuery.getText();
 
         jTextAreaResults.append("\nSearching for '" + Query + "'");
+        long startTime = System.currentTimeMillis();
         String message = S.search_tree(Query);
+        long stopTime = System.currentTimeMillis();
+        jTextAreaResults.append("\nSearching Time: " + (stopTime - startTime) / 1000F);
         jTextAreaResults.append("\n" + message);
 
     }//GEN-LAST:event_jButtonSearchActionPerformed
