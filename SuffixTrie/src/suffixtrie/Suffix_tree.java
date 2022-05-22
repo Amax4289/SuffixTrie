@@ -30,7 +30,7 @@ public class Suffix_tree {
 
     /* Prints all occurrences of pat in the Suffix Trie S
     (built for text) */
-    void search_tree(String pat) {
+    String search_tree(String pat) {
 
         // Let us call recursive search function for
         // root of Trie.
@@ -38,17 +38,21 @@ public class Suffix_tree {
         // present in text) in variable 'result'
         List<Integer> result = root.search(pat);
 
+        String message = "";
+
         // Check if the list of indexes is empty or not
         if (result == null) {
+            message = "Pattern not found";
             System.out.println("Pattern not found");
         } else {
 
             int patLen = pat.length();
 
             for (Integer i : result) {
-                System.out.println("Pattern found at position "
-                        + (i - patLen));
+                message = "Pattern found at position " + (i - patLen);
+                System.out.println("Pattern found at position " + (i - patLen));
             }
         }
+        return message;
     }
 }
