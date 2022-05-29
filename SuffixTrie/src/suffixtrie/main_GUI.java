@@ -6,7 +6,9 @@
 package suffixtrie;
 
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -25,6 +27,7 @@ public class main_GUI extends javax.swing.JFrame {
     }
 
     Suffix_tree S;
+    String content = "";
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,7 +101,6 @@ public class main_GUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(66, 66, 66)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonSearch)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButtonChooseFile)
@@ -110,7 +112,8 @@ public class main_GUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jTextFieldQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addComponent(jButtonSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -154,7 +157,6 @@ public class main_GUI extends javax.swing.JFrame {
     private void jButtonChooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChooseFileActionPerformed
 
         try {
-            String txt = "";
 
             JFileChooser inputFolder = new JFileChooser();
             inputFolder.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -163,20 +165,18 @@ public class main_GUI extends javax.swing.JFrame {
             String FileName = String.valueOf(inputFolder.getSelectedFile().getName());
             jTextFieldFile.setText(FileName);
 
-            Scanner myReader = new Scanner(inputFolder.getSelectedFile());
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                txt = txt + data;
+            Path filePath = Path.of(String.valueOf(inputFolder.getSelectedFile()));
+            content = Files.readString(filePath);
 
-            }
-            myReader.close();
             long startTime = System.currentTimeMillis();
-            S = new Suffix_tree(txt);
+            S = new Suffix_tree(content);
             long stopTime = System.currentTimeMillis();
             System.out.println(stopTime - startTime);
             jTextAreaResults.append("\nSuffix Trie Creation Time: " + (stopTime - startTime) / 1000F + " Seconds.");
-
+            jTextAreaResults.append("\n_____________________________");
         } catch (FileNotFoundException ex) {
+            Logger.getLogger(main_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(main_GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -190,9 +190,9 @@ public class main_GUI extends javax.swing.JFrame {
         long startTime = System.currentTimeMillis();
         String message = S.search_tree(Query);
         long stopTime = System.currentTimeMillis();
-        jTextAreaResults.append("\nSearching Time: " + (stopTime - startTime) / 1000F);
+        jTextAreaResults.append("\nSearching Time: " + (stopTime - startTime) / 1000F + " Seconds.");
         jTextAreaResults.append("\n" + message);
-
+        jTextAreaResults.append("\n_____________________________");
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     /**

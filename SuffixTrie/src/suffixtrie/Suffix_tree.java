@@ -49,7 +49,7 @@ public class Suffix_tree {
             int patLen = pat.length();
 
             for (Integer i : result) {
-                message = "Pattern found at position " + (i - patLen);
+                message = message + "Pattern found at position " + (i - patLen) + "\n";
                 System.out.println("Pattern found at position " + (i - patLen));
             }
         }
